@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  server:
+    build:
+      context: ./server
+    ports:
+      - 3000:3000
+    restart: always
+    environment:
+      - SECRET_KEY_BASE=secret-key
+    # depends_on:
+    #   - db
+    volumes:
+      - staticfiles:/backend/staticfiles
+  nginx:
+    build:
+      context: .
+      dockerfile: ./webserver/Dockerfile
+    restart: always
+    volumes:
+      - staticfiles:/staticfiles
+    ports:
+      - 80:80
+    depends_on:
+      - server
+volumes:
+  staticfiles:
