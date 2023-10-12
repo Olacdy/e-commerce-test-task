@@ -1,6 +1,17 @@
 version: "3.9"
 
 services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=e_commerce_test_task_production
+      - POSTGRES_USER=e_commerce_test_task
+      - POSTGRES_PASSWORD=e_commerce_test_task
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   server:
     build:
       context: ./server
@@ -9,8 +20,10 @@ services:
     restart: always
     environment:
       - SECRET_KEY_BASE=secret-key
-    # depends_on:
-    #   - db
+      - POSTGRES_USER=e_commerce_test_task
+      - POSTGRES_PASSWORD=e_commerce_test_task
+    depends_on:
+      - db
     volumes:
       - staticfiles:/backend/staticfiles
   nginx:
@@ -26,3 +39,4 @@ services:
       - server
 volumes:
   staticfiles:
+  postgres_data:
