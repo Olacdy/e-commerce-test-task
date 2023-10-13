@@ -2,12 +2,14 @@ import { FC } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
-import SignIn from '@/components/auth/sign-in';
-import SignUp from '@/components/auth/sign-up';
 import Home from '@/components/home';
 import MainLayout from '@/components/main-layout';
 import Orders from '@/components/orders';
 import ProtectedRoute from '@/components/protected-route';
+
+import AuthLayout from '@/components/auth/auth-layout';
+import SignIn from '@/components/auth/sign-in';
+import SignUp from '@/components/auth/sign-up';
 
 type AppProps = {};
 
@@ -24,8 +26,10 @@ const App: FC<AppProps> = ({}) => {
         <Route index element={<Home />} />
         <Route path='/orders' element={<Orders />} />
       </Route>
-      <Route path='/signup' element={<SignUp />} />
-      <Route path='/signin' element={<SignIn />} />
+      <Route path='/auth' element={<AuthLayout />}>
+        <Route path='/auth/signup' element={<SignUp />} />
+        <Route path='/auth/signin' element={<SignIn />} />
+      </Route>
     </Routes>
   );
 };

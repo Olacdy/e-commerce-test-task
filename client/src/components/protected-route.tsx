@@ -12,7 +12,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
   const user = useUserStore((state) => state.user);
 
   if (!user) {
-    return <Navigate to='/signup' replace />;
+    return <Navigate to='/auth/signup' replace />;
   }
 
   return children;
