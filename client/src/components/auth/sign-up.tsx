@@ -1,9 +1,13 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
 import { useForm } from 'react-hook-form';
+
+import { Link } from 'react-router-dom';
+
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -23,12 +27,23 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+import useTokenStore from '@/context/token-context';
+import useUserStore from '@/context/user-context';
+
+import { cn, getApiUrl } from '@/lib/utils';
+
 import { signUpSchema } from '@/schemas/auth-schemas';
-import { Link } from 'react-router-dom';
+
+import { UserType } from '@/types/user-type';
 
 type SignUpProps = {};
 
 const SignUp: FC<SignUpProps> = ({}) => {
+  const tokenStore = useTokenStore();
+  const userStore = useUserStore();
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -41,13 +56,39 @@ const SignUp: FC<SignUpProps> = ({}) => {
   });
 
   const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    setIsLoading(true);
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user: { ...values } }),
+    };
+
+    try {
+      const response = await fetch(`${getApiUrl()}/register`, requestOptions);
+
+      const user = (await response.json()).status.data.user;
+      const token = response.headers.get('Authorization')?.split(' ')[1];
+
+      tokenStore.setToken(token as string);
+      userStore.setUser(user as UserType);
+
+      form.reset();
+    } catch (error) {
+      form.resetField('password');
+      form.resetField('confirmPassword');
+
+      toast.error('Something went wrong, try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <Card className='mx-10'>
+    <Card className='mx-10 w-full max-w-md'>
       <CardHeader>
         <CardTitle className='text-center'>Sign Up</CardTitle>
       </CardHeader>
@@ -55,7 +96,7 @@ const SignUp: FC<SignUpProps> = ({}) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='flex flex-col gap-3'>
+            className='flex flex-col gap-1.5 md:gap-2 lg:gap-3'>
             <div className='flex items-center gap-3'>
               <FormField
                 control={form.control}
@@ -64,7 +105,11 @@ const SignUp: FC<SignUpProps> = ({}) => {
                   <FormItem>
                     <FormLabel>First name</FormLabel>
                     <FormControl>
-                      <Input placeholder='John' {...field} />
+                      <Input
+                        disabled={isLoading}
+                        placeholder='John'
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -77,7 +122,11 @@ const SignUp: FC<SignUpProps> = ({}) => {
                   <FormItem>
                     <FormLabel>Last name</FormLabel>
                     <FormControl>
-                      <Input placeholder='Doe' {...field} />
+                      <Input
+                        disabled={isLoading}
+                        placeholder='Doe'
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -91,7 +140,11 @@ const SignUp: FC<SignUpProps> = ({}) => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='example@example.com' {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder='example@example.com'
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,7 +158,11 @@ const SignUp: FC<SignUpProps> = ({}) => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input placeholder='Password' {...field} />
+                      <Input
+                        disabled={isLoading}
+                        placeholder='Password'
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -117,7 +174,11 @@ const SignUp: FC<SignUpProps> = ({}) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder='Confirm Password' {...field} />
+                      <Input
+                        disabled={isLoading}
+                        placeholder='Confirm Password'
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -125,16 +186,20 @@ const SignUp: FC<SignUpProps> = ({}) => {
               />
             </div>
 
-            <Button type='submit' className='mt-5'>
-              Create an accoun
+            <Button disabled={isLoading} type='submit' className='mt-5'>
+              Create an account
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className='flex-col'>
-        <p>Already have a account?</p>
-        <Link to='/auth/signin'>
-          <Button variant='link'>Sign In</Button>
+        <p>Already have a account&#63;</p>
+        <Link
+          className={cn({ 'pointer-events-none': isLoading })}
+          to='/auth/signin'>
+          <Button disabled={isLoading} variant='link'>
+            Sign In
+          </Button>
         </Link>
       </CardFooter>
     </Card>
