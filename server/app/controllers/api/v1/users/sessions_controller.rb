@@ -5,8 +5,8 @@ module Api
     module Users
       class SessionsController < Devise::SessionsController
         include RackSessionsFix
+
         respond_to :json
-        private
 
         def respond_with(current_user, _opts = {})
           render json: {
