@@ -8,6 +8,7 @@ import Orders from '@/components/orders';
 import ProtectedRoute from '@/components/protected-route';
 
 import AuthLayout from '@/components/auth/auth-layout';
+import AuthRoute from '@/components/auth/auth-route';
 import SignIn from '@/components/auth/sign-in';
 import SignUp from '@/components/auth/sign-up';
 
@@ -26,7 +27,13 @@ const App: FC<AppProps> = ({}) => {
         <Route index element={<Home />} />
         <Route path='/orders' element={<Orders />} />
       </Route>
-      <Route path='/auth' element={<AuthLayout />}>
+      <Route
+        path='/auth'
+        element={
+          <AuthRoute>
+            <AuthLayout />
+          </AuthRoute>
+        }>
         <Route path='/auth/signup' element={<SignUp />} />
         <Route path='/auth/signin' element={<SignIn />} />
       </Route>

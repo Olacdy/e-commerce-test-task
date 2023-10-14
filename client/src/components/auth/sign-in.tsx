@@ -5,7 +5,7 @@ import * as z from 'zod';
 
 import { useForm } from 'react-hook-form';
 
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 
 import { toast } from 'sonner';
 
@@ -74,6 +74,8 @@ const SignIn: FC<SignInProps> = ({}) => {
       userStore.setUser(user as UserType);
 
       form.reset();
+
+      redirect('/');
     } catch (error) {
       form.resetField('password');
 
