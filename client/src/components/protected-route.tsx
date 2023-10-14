@@ -1,45 +1,34 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 
-import { Navigate, redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import useTokenStore from '@/context/token-context';
 import useUserStore from '@/context/user-context';
-
-import { getApiUrl } from '@/lib/utils';
-
-import { UserType } from '@/types/user-type';
 
 type ProtectedRouteProps = {
   children: ReactNode;
 };
 
 const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-  const token = useTokenStore((state) => state.token);
+  const tokenStore = useTokenStore();
   const userStore = useUserStore();
 
-  if (!token && !userStore.user) {
-    return <Navigate to='/auth/signup' replace />;
-  }
+  useEffect(() => {
+    const updateUserWithToken = async (token: string) => {
+      const result = await userStore.fetchUser(token);
 
-  if (token && !userStore.user) {
-    const requestOptions = {
-      headers: {
-        Accept: '*/*',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+      if (!result) {
+        tokenStore.clearToken();
+      }
     };
 
-    fetch(`${getApiUrl()}/users/me`, requestOptions)
-      .then((response) => {
-        return response.json().then((data) => {
-          userStore.setUser(data.status.data.user as UserType);
-        });
-      })
-      .catch(() => {
-        redirect('/auth/signup');
-      });
-  }
+    if (tokenStore.token && !userStore.user) {
+      updateUserWithToken(tokenStore.token);
+    }
+  }, [tokenStore, userStore]);
+
+  if (!tokenStore.token && !userStore.user)
+    return <Navigate to='/auth/signup' replace />;
 
   return children;
 };

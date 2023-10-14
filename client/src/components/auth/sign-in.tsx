@@ -67,7 +67,9 @@ const SignIn: FC<SignInProps> = ({}) => {
     try {
       const response = await fetch(`${getApiUrl()}/login`, requestOptions);
 
-      const user = (await response.json()).status.data.user;
+      if (!response.ok) throw new Error(`${response.status}`);
+
+      const user = (await response.json()).data;
       const token = response.headers.get('Authorization')?.split(' ')[1];
 
       tokenStore.setToken(token as string);
@@ -76,8 +78,13 @@ const SignIn: FC<SignInProps> = ({}) => {
       form.reset();
 
       redirect('/');
-    } catch (error) {
+    } catch (error: any) {
       form.resetField('password');
+
+      if (error.message == 401) {
+        toast.error('Invalid credentials.');
+        return;
+      }
 
       toast.error('Something went wrong, try again.');
     } finally {
@@ -120,6 +127,7 @@ const SignIn: FC<SignInProps> = ({}) => {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
+                      type='password'
                       disabled={isLoading}
                       placeholder='Password'
                       {...field}

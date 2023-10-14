@@ -68,9 +68,11 @@ const SignUp: FC<SignUpProps> = ({}) => {
     };
 
     try {
-      const response = await fetch(`${getApiUrl()}/register`, requestOptions);
+      const response = await fetch(`${getApiUrl()}/signup`, requestOptions);
 
-      const user = (await response.json()).status.data.user;
+      if (!response.ok) throw new Error(`${response.status}`);
+
+      const user = (await response.json()).data;
       const token = response.headers.get('Authorization')?.split(' ')[1];
 
       tokenStore.setToken(token as string);
@@ -79,9 +81,14 @@ const SignUp: FC<SignUpProps> = ({}) => {
       form.reset();
 
       redirect('/');
-    } catch (error) {
+    } catch (error: any) {
       form.resetField('password');
       form.resetField('confirmPassword');
+
+      if (error.message == 422) {
+        toast.error('User with this email already exists.');
+        return;
+      }
 
       toast.error('Something went wrong, try again.');
     } finally {
@@ -161,6 +168,7 @@ const SignUp: FC<SignUpProps> = ({}) => {
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
+                        type='password'
                         disabled={isLoading}
                         placeholder='Password'
                         {...field}
@@ -177,6 +185,7 @@ const SignUp: FC<SignUpProps> = ({}) => {
                   <FormItem>
                     <FormControl>
                       <Input
+                        type='password'
                         disabled={isLoading}
                         placeholder='Confirm Password'
                         {...field}
