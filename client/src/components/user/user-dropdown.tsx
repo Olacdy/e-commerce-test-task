@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,16 +24,21 @@ type UserDropdownProps = {
 const UserDropdown: FC<UserDropdownProps> = ({ user, handleLogout }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Icons.user />
+      <DropdownMenuTrigger asChild>
+        <Button size='icon' variant='ghost'>
+          <Icons.user className='cursor-pointer md:h-8 md:w-8' />
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>{getUserName(user)}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={handleLogout}
+          className='text-red-800 dark:text-red-600 dark:hover:font-semibold dark:hover:text-white'>
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
