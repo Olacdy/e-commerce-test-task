@@ -10,7 +10,7 @@ type MainLayoutProps = {
 
 const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   return (
-    <main className='flex h-screen max-h-screen w-full flex-col items-center'>
+    <main className='flex h-screen max-h-screen w-full flex-col items-center gap-20'>
       <Header />
       {children ? children : <Outlet />}
     </main>
