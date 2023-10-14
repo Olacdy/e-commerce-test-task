@@ -5,6 +5,9 @@ module Api
     module Users
       class RegistrationsController < Devise::RegistrationsController
         include RackSessionsFix
+
+        before_action :add_custom_header, only: [:create]
+
         respond_to :json
         private
 
@@ -19,6 +22,10 @@ module Api
               status: {message: "User couldn't be created successfully. #{current_user.errors.full_messages.to_sentence}"}
             }, status: :unprocessable_entity
           end
+        end
+
+        def add_custom_header
+          response.headers["Access-Control-Expose-Headers"] = "Authorization"
         end
       end
     end

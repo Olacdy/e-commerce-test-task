@@ -3,21 +3,15 @@ Rails.application.routes.draw do
   resources :orders
   resources :items
   resources :users
-  # devise_for :users, path: 'api/v1/', path_names: {
-  #   sign_in: 'login',
-  #   sign_out: 'logout',
-  #   registration: 'signup'
-  # },
-  # controllers: {
-  #   sessions: 'api/v1/users/sessions',
-  #   registrations: 'api/v1/users/registrations'
-  # }
-
-  devise_scope :user do
-    post 'api/v1/login', to: 'api/v1/users/sessions#create', as: :user_session
-    post 'api/v1/signup', to: 'api/v1/users/registrations#create', as: :user_registration
-    delete 'api/v1/logout', to: 'api/v1/users/sessions#destroy', as: :destroy_user_session
-  end
+  devise_for :users, path: 'api/v1/', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    registration: 'signup'
+  },
+  controllers: {
+    sessions: 'api/v1/users/sessions',
+    registrations: 'api/v1/users/registrations'
+  }
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
