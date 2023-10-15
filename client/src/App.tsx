@@ -1,5 +1,3 @@
-import { FC } from 'react';
-
 import { Route, Routes } from 'react-router-dom';
 
 import Home from '@/components/home';
@@ -15,9 +13,7 @@ import SignUp from '@/components/auth/sign-up';
 import Users from '@/components/user/users';
 import UsersRoute from '@/components/user/users-route';
 
-type AppProps = {};
-
-const App: FC<AppProps> = ({}) => {
+const App = () => {
   return (
     <Routes>
       <Route

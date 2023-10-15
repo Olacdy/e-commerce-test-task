@@ -1,5 +1,8 @@
 import { cn } from '@/lib/utils';
 import {
+  ChevronDown,
+  Minus,
+  Plus,
   ShoppingCart,
   UserCircle2,
   Users,
@@ -13,6 +16,9 @@ export const Icons = {
   cart: ShoppingCart,
   user: UserCircle2,
   users: Users,
+  down: ChevronDown,
+  plus: Plus,
+  minus: Minus,
   menu: ({ ...props }: LucideProps) => (
     <svg
       xmlns='http://www.w3.org/2000/svg'

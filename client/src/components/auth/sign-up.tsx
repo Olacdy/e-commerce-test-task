@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -36,9 +36,7 @@ import { signUpSchema } from '@/schemas/auth-schemas';
 
 import { UserType } from '@/types/user-type';
 
-type SignUpProps = {};
-
-const SignUp: FC<SignUpProps> = ({}) => {
+const SignUp = () => {
   const tokenStore = useTokenStore();
   const userStore = useUserStore();
 

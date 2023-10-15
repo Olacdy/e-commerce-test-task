@@ -1,5 +1,3 @@
-import { FC } from 'react';
-
 import { Link, redirect } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
@@ -10,9 +8,7 @@ import UserDropdown from '@/components/user/user-dropdown';
 import useTokenStore from '@/context/token-context';
 import useUserStore from '@/context/user-context';
 
-type HeaderProps = {};
-
-const Header: FC<HeaderProps> = ({}) => {
+const Header = () => {
   const tokenStore = useTokenStore();
   const userStore = useUserStore();
 

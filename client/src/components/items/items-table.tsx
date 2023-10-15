@@ -10,6 +10,11 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -20,9 +25,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { columns } from '@/components/items-columns';
+import { Icons } from '@/components/icons';
+
+import { columns } from '@/components/items/items-columns';
 
 import { ItemType } from '@/types/item-type';
+import ItemContent from './item-content';
 
 type ItemsTableProps = {
   items: ItemType[];
@@ -45,7 +53,7 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
   });
 
   return (
-    <div className='w-full max-w-lg px-10 md:max-w-3xl lg:max-w-6xl'>
+    <div className='w-full max-w-lg px-10 pb-10 md:max-w-3xl lg:max-w-6xl'>
       <div className='flex items-center py-4'>
         <Input
           placeholder='Filter name...'
@@ -57,7 +65,7 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
         />
       </div>
       <div className='rounded-md border'>
-        <Table>
+        <Table className='table-fixed'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -79,18 +87,37 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <Collapsible key={row.id} asChild>
+                  <>
+                    <TableRow>
+                      {row.getVisibleCells().map((cell) => {
+                        if (cell.id.includes('collapse')) {
+                          return (
+                            <CollapsibleTrigger asChild>
+                              <TableCell className='group cursor-pointer'>
+                                <Icons.down className='transition-transform group-data-[state=open]:rotate-180' />
+                              </TableCell>
+                            </CollapsibleTrigger>
+                          );
+                        }
+
+                        return (
+                          <TableCell key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                    <CollapsibleContent asChild>
+                      <TableCell colSpan={3}>
+                        <ItemContent item={row.original} />
+                      </TableCell>
+                    </CollapsibleContent>
+                  </>
+                </Collapsible>
               ))
             ) : (
               <TableRow>
