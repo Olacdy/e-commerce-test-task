@@ -1,4 +1,4 @@
-import { Link, redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -14,13 +14,15 @@ import useUserStore from '@/context/user-context';
 const Header = () => {
   const tokenStore = useTokenStore();
   const userStore = useUserStore();
-  const cart = useCartStore((state) => state.cart);
+  const { cart, clearCart } = useCartStore((state) => ({
+    cart: state.cart,
+    clearCart: state.clearCart,
+  }));
 
   const handleLogout = () => {
     tokenStore.clearToken();
     userStore.clearUser();
-
-    redirect('/auth/signin');
+    clearCart();
   };
 
   return (
@@ -45,7 +47,7 @@ const Header = () => {
             <Link to='/orders'>
               <Button size='icon' variant='ghost'>
                 <Icons.cart className='md:h-8 md:w-8' />
-                {cart && (
+                {cart.length > 0 && (
                   <Badge className='absolute -right-1 -top-1 h-6 w-6 group-hover:bg-secondary/90 group-hover:text-foreground'>
                     {cart.length}
                   </Badge>

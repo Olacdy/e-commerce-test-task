@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
 
-import snakecasekeys from 'snakecase-keys';
+import snakecaseKeys from 'snakecase-keys';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -60,7 +60,7 @@ const EditUserForm: FC<EditUserFormProps> = ({ user, updateUser, me }) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(snakecasekeys({ user: { ...values } })),
+      body: JSON.stringify(snakecaseKeys({ user: { ...values } })),
     };
 
     try {

@@ -8,6 +8,7 @@ type CartStoreType = {
   addToCart: (cartItem: CartItemType) => void;
   isIncrease: (cartItem: CartItemType) => boolean;
   increaseItemAmount: (cartItem: CartItemType) => void;
+  total: () => number;
   clearCart: () => void;
 };
 
@@ -41,6 +42,12 @@ const useCartStore = create<CartStoreType>()(
           ],
         });
       },
+      total: () =>
+        Math.round(
+          get().cart.reduce((accumulator, ct) => {
+            return accumulator + ct.amount * ct.item.price;
+          }, 0) * 100
+        ) / 100,
       clearCart: () => set({ cart: [] }),
     }),
     {
