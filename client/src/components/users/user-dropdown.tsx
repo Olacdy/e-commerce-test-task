@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -32,7 +34,9 @@ const UserDropdown: FC<UserDropdownProps> = ({ user, handleLogout }) => {
       <DropdownMenuContent>
         <DropdownMenuLabel>{getUserName(user)}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to='/profile'>Profile</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={handleLogout}

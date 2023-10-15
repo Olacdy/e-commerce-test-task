@@ -1,5 +1,7 @@
 import { FC, useState } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import {
   ColumnFiltersState,
   flexRender,
@@ -32,14 +34,12 @@ import { UserType } from '@/types/user-type';
 type UsersTableProps = {
   users: UserType[];
   handlePromote: (userId: string) => void;
-  handleEdit: (userId: string) => void;
   handleDelete: (userId: string) => void;
 };
 
 const UsersTable: FC<UsersTableProps> = ({
   users,
   handlePromote,
-  handleEdit,
   handleDelete,
 }) => {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
@@ -117,12 +117,12 @@ const UsersTable: FC<UsersTableProps> = ({
                       if (cell.id.includes('edit')) {
                         return (
                           <TableCell key={cell.id}>
-                            <Button
-                              onClick={() => handleEdit(row.original.id)}
-                              className='gap-3'>
-                              <p>Edit</p>
-                              <Icons.profile className='h-4 w-4' />
-                            </Button>
+                            <Link to={`/users/${row.original.id}`}>
+                              <Button className='gap-3'>
+                                <p>Edit</p>
+                                <Icons.profile className='h-4 w-4' />
+                              </Button>
+                            </Link>
                           </TableCell>
                         );
                       }

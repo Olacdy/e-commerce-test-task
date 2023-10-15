@@ -106,7 +106,7 @@ const SignUp = () => {
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className='flex flex-col gap-1.5 md:gap-2 lg:gap-3'>
-            <div className='flex items-center gap-3'>
+            <div className='flex items-center justify-between gap-3'>
               <FormField
                 control={form.control}
                 name='firstName'

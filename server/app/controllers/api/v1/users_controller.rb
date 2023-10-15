@@ -1,7 +1,7 @@
 module Api
   module V1
     class UsersController < ApiController
-      before_action :set_user, only: %i[ promote update destroy ]
+      before_action :set_user, only: %i[ promote show update destroy ]
 
       def me
         @current_user = current_user
@@ -36,6 +36,20 @@ module Api
             @users = User.all
 
             render json: UserSerializer.new(@users).serializable_hash[:data].map { |item| item[:attributes] }
+          else
+            render status: :unauthorized
+          end
+        else
+          render status: :unauthorized
+        end
+      end
+
+      def show
+        @current_user = current_user
+
+        if @current_user
+          if @current_user.role == "admin"
+            render json: UserSerializer.new(@user).serializable_hash[:data][:attributes]
           else
             render status: :unauthorized
           end

@@ -10,8 +10,10 @@ import AuthRoute from '@/components/auth/auth-route';
 import SignIn from '@/components/auth/sign-in';
 import SignUp from '@/components/auth/sign-up';
 
+import EditUser from '@/components/users/edit-user';
 import Users from '@/components/users/users';
-import UsersRoute from '@/components/users/users-route';
+
+import AdminRoute from '@/components/admin-route';
 
 const App = () => {
   return (
@@ -24,15 +26,12 @@ const App = () => {
           </ProtectedRoute>
         }>
         <Route index element={<Home />} />
-        <Route path='/orders' element={<Orders />} />
-        <Route
-          path='/users'
-          element={
-            <UsersRoute>
-              <Users />
-            </UsersRoute>
-          }
-        />
+        <Route path='orders' element={<Orders />} />
+        <Route path='users' element={<AdminRoute />}>
+          <Route index element={<Users />} />
+          <Route path=':userId' element={<EditUser />} />
+        </Route>
+        <Route path='profile' element={<EditUser />} />
       </Route>
       <Route
         path='/auth'

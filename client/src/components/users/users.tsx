@@ -45,10 +45,6 @@ const Users = () => {
     }
   };
 
-  const handleEdit = (userId: string) => {
-    console.log('Edit: ', userId);
-  };
-
   const handleDelete = async (userId: string) => {
     const requestOptions = {
       method: 'DELETE',
@@ -101,7 +97,6 @@ const Users = () => {
     <UsersTable
       users={users}
       handlePromote={handlePromote}
-      handleEdit={handleEdit}
       handleDelete={handleDelete}
     />
   );
