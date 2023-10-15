@@ -9,6 +9,8 @@ import { Link, redirect } from 'react-router-dom';
 
 import { toast } from 'sonner';
 
+import snakecasekeys from 'snakecase-keys';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -62,7 +64,7 @@ const SignUp = () => {
         Accept: '*/*',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user: { ...values } }),
+      body: JSON.stringify(snakecasekeys({ user: { ...values } })),
     };
 
     try {

@@ -7,6 +7,7 @@ namespace :api do
     # end
 
     get "/users/me", to: "users#me"
+    put "/users/promote/:id", to: "users#promote"
     resources :order_descriptions
     resources :orders
     resources :items

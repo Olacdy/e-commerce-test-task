@@ -6,6 +6,7 @@ module Api
       class RegistrationsController < Devise::RegistrationsController
         include RackSessionsFix
 
+        before_action :configure_permitted_parameters, only: [:create]
         before_action :add_custom_header, only: [:create]
 
         respond_to :json
@@ -24,6 +25,10 @@ module Api
               status: {message: "User couldn't be created successfully. #{current_user.errors.full_messages.to_sentence}"}
             }, status: :unprocessable_entity
           end
+        end
+
+        def configure_permitted_parameters
+          devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name])
         end
 
         def add_custom_header

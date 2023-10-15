@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { toast } from 'sonner';
+
 import UsersTable from '@/components/users/users-table';
 
 import useTokenStore from '@/context/token-context';
@@ -13,16 +15,66 @@ const Users = () => {
 
   const [users, setUsers] = useState<UserType[]>([]);
 
-  const handlePromote = (userId: string) => {
-    console.log('Promote: ', userId);
+  const handlePromote = async (userId: string) => {
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const response = await fetch(
+        `${getApiUrl()}/users/promote/${userId}`,
+        requestOptions
+      );
+
+      if (!response.ok) throw new Error(`${response.status}`);
+      const newUser = await response.json();
+
+      setUsers(
+        users.map((user) => {
+          if (user.id === userId) return newUser;
+          return user;
+        })
+      );
+    } catch (error) {
+      toast.error('Something went wrong. Try again.');
+    }
   };
 
   const handleEdit = (userId: string) => {
     console.log('Edit: ', userId);
   };
 
-  const handleDelete = (userId: string) => {
-    console.log('Delete: ', userId);
+  const handleDelete = async (userId: string) => {
+    const requestOptions = {
+      method: 'DELETE',
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const response = await fetch(
+        `${getApiUrl()}/users/${userId}`,
+        requestOptions
+      );
+
+      if (!response.ok) throw new Error(`${response.status}`);
+
+      setUsers(
+        users.filter((user) => {
+          if (user.id !== userId) return user;
+        })
+      );
+    } catch (error) {
+      toast.error('Something went wrong. Try again.');
+    }
   };
 
   useEffect(() => {
