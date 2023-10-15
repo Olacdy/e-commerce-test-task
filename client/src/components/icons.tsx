@@ -1,10 +1,13 @@
 import { cn } from '@/lib/utils';
 import {
+  ArrowBigUp,
   ChevronDown,
   Minus,
   Plus,
   ShoppingCart,
+  Trash2,
   UserCircle2,
+  UserCog,
   Users,
   type LucideIcon,
   type LucideProps,
@@ -19,6 +22,9 @@ export const Icons = {
   down: ChevronDown,
   plus: Plus,
   minus: Minus,
+  promote: ArrowBigUp,
+  profile: UserCog,
+  delete: Trash2,
   menu: ({ ...props }: LucideProps) => (
     <svg
       xmlns='http://www.w3.org/2000/svg'

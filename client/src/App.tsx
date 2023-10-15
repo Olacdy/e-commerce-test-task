@@ -10,8 +10,8 @@ import AuthRoute from '@/components/auth/auth-route';
 import SignIn from '@/components/auth/sign-in';
 import SignUp from '@/components/auth/sign-up';
 
-import Users from '@/components/user/users';
-import UsersRoute from '@/components/user/users-route';
+import Users from '@/components/users/users';
+import UsersRoute from '@/components/users/users-route';
 
 const App = () => {
   return (

@@ -27,11 +27,12 @@ import {
 
 import { Icons } from '@/components/icons';
 
+import ItemContent from '@/components/items/item-content';
 import { columns } from '@/components/items/items-columns';
 
 import useCartStore from '@/context/cart-context';
+
 import { ItemType } from '@/types/item-type';
-import ItemContent from './item-content';
 
 type ItemsTableProps = {
   items: ItemType[];
@@ -68,7 +69,7 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
         />
       </div>
       <div className='rounded-md border'>
-        <Table className='table-fixed'>
+        <Table className=''>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -96,11 +97,15 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
                       {row.getVisibleCells().map((cell) => {
                         if (cell.id.includes('collapse')) {
                           return (
-                            <CollapsibleTrigger asChild>
-                              <TableCell className='group cursor-pointer'>
-                                <Icons.down className='transition-transform group-data-[state=open]:rotate-180' />
-                              </TableCell>
-                            </CollapsibleTrigger>
+                            <TableCell
+                              key={cell.id}
+                              className='flex justify-end'>
+                              <CollapsibleTrigger asChild>
+                                <div className='group cursor-pointer px-3 py-1.5'>
+                                  <Icons.down className='transition-transform group-data-[state=open]:rotate-180' />
+                                </div>
+                              </CollapsibleTrigger>
+                            </TableCell>
                           );
                         }
 
@@ -115,12 +120,14 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
                       })}
                     </TableRow>
                     <CollapsibleContent asChild>
-                      <TableCell colSpan={3}>
-                        <ItemContent
-                          item={row.original}
-                          addToCart={addToCart}
-                        />
-                      </TableCell>
+                      <tr>
+                        <TableCell colSpan={3}>
+                          <ItemContent
+                            item={row.original}
+                            addToCart={addToCart}
+                          />
+                        </TableCell>
+                      </tr>
                     </CollapsibleContent>
                   </>
                 </Collapsible>

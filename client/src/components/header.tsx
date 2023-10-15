@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 import { Icons } from '@/components/icons';
 
-import UserDropdown from '@/components/user/user-dropdown';
+import UserDropdown from '@/components/users/user-dropdown';
 
 import useCartStore from '@/context/cart-context';
 import useTokenStore from '@/context/token-context';
