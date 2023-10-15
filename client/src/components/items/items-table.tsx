@@ -29,6 +29,7 @@ import { Icons } from '@/components/icons';
 
 import { columns } from '@/components/items/items-columns';
 
+import useCartStore from '@/context/cart-context';
 import { ItemType } from '@/types/item-type';
 import ItemContent from './item-content';
 
@@ -37,6 +38,8 @@ type ItemsTableProps = {
 };
 
 const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
+  const addToCart = useCartStore((state) => state.addToCart);
+
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
@@ -113,7 +116,10 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
                     </TableRow>
                     <CollapsibleContent asChild>
                       <TableCell colSpan={3}>
-                        <ItemContent item={row.original} />
+                        <ItemContent
+                          item={row.original}
+                          addToCart={addToCart}
+                        />
                       </TableCell>
                     </CollapsibleContent>
                   </>

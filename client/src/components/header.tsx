@@ -1,16 +1,20 @@
 import { Link, redirect } from 'react-router-dom';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
 import { Icons } from '@/components/icons';
+
 import UserDropdown from '@/components/user/user-dropdown';
 
+import useCartStore from '@/context/cart-context';
 import useTokenStore from '@/context/token-context';
 import useUserStore from '@/context/user-context';
 
 const Header = () => {
   const tokenStore = useTokenStore();
   const userStore = useUserStore();
+  const cart = useCartStore((state) => state.cart);
 
   const handleLogout = () => {
     tokenStore.clearToken();
@@ -37,10 +41,15 @@ const Header = () => {
               </Link>
             </li>
           )}
-          <li>
+          <li className='group relative'>
             <Link to='/orders'>
               <Button size='icon' variant='ghost'>
                 <Icons.cart className='md:h-8 md:w-8' />
+                {cart && (
+                  <Badge className='absolute -right-1 -top-1 h-6 w-6 group-hover:bg-secondary/90 group-hover:text-foreground'>
+                    {cart.length}
+                  </Badge>
+                )}
               </Button>
             </Link>
           </li>

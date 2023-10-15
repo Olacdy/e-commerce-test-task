@@ -1,25 +1,39 @@
-import { ItemType } from '@/types/item-type';
 import { FC, useState } from 'react';
-import { Icons } from '../icons';
-import { Button } from '../ui/button';
+
+import { Button } from '@/components/ui/button';
+
+import { Icons } from '@/components/icons';
+
+import { CartItemType } from '@/types/cart-type';
+import { ItemType } from '@/types/item-type';
+import { toast } from 'sonner';
 
 type ItemContentProps = {
   item: ItemType;
+  addToCart: (cartItem: CartItemType) => void;
 };
 
-const ItemContent: FC<ItemContentProps> = ({ item }) => {
-  const [count, setCount] = useState<number>(0);
+const ItemContent: FC<ItemContentProps> = ({ item, addToCart }) => {
+  const [amount, setAmount] = useState<number>(0);
 
   const increaseCount = () => {
-    setCount((prev) => prev + 1);
+    setAmount((prev) => prev + 1);
   };
 
   const decreaseCount = () => {
-    setCount((prev) => {
-      const newValue = prev - 1;
-      if (newValue > 0) return newValue;
+    setAmount((prev) => {
+      const newAmount = prev - 1;
+      if (newAmount > 0) return newAmount;
       return 0;
     });
+  };
+
+  const handleAddToCart = () => {
+    addToCart({ item: item, amount: amount });
+    if (amount > 0) {
+      toast.success(`${amount} of ${item.name} added to cart.`);
+      setAmount(0);
+    }
   };
 
   return (
@@ -32,7 +46,7 @@ const ItemContent: FC<ItemContentProps> = ({ item }) => {
             onClick={increaseCount}>
             <Icons.plus />
           </Button>
-          <span>{count}</span>
+          <span>{amount}</span>
           <Button
             className='px-3'
             variant='destructive'
@@ -40,7 +54,10 @@ const ItemContent: FC<ItemContentProps> = ({ item }) => {
             <Icons.minus />
           </Button>
         </div>
-        <Button className='text-xs md:text-sm' variant='outline'>
+        <Button
+          onClick={handleAddToCart}
+          className='text-xs md:text-sm'
+          variant='outline'>
           Add to Cart
         </Button>
       </div>
