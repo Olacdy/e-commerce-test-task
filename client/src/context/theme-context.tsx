@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'system';
 
 type ThemeContextProviderProps = {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ type ThemeContextProviderProps = {
 
 type ThemeContextType = {
   theme?: Theme;
-  toggleTheme: () => void;
+  changeTheme: (value: Theme) => void;
 };
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
@@ -20,15 +20,24 @@ export default function ThemeContextProvider({
 }: ThemeContextProviderProps) {
   const [theme, setTheme] = useState<Theme>();
 
-  const toggleTheme = () => {
-    if (theme === 'light') {
+  const changeTheme = (value: Theme) => {
+    console.log(value);
+    if (value === 'dark') {
       setTheme('dark');
       window.localStorage.setItem('theme', 'dark');
       document.documentElement.classList.add('dark');
-    } else {
+    } else if (value === 'light') {
       setTheme('light');
       window.localStorage.setItem('theme', 'light');
       document.documentElement.classList.remove('dark');
+    } else {
+      setTheme('system');
+      window.localStorage.removeItem('theme');
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
   };
 
@@ -51,7 +60,7 @@ export default function ThemeContextProvider({
     <ThemeContext.Provider
       value={{
         theme,
-        toggleTheme,
+        changeTheme,
       }}>
       {children}
     </ThemeContext.Provider>

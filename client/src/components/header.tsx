@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 
 import { Icons } from '@/components/icons';
 
+import ThemeDropdown from '@/components/theme-dropdown';
 import UserDropdown from '@/components/users/user-dropdown';
 
 import useCartStore from '@/context/cart-context';
@@ -61,6 +62,9 @@ const Header = () => {
           </li>
           <li>
             <UserDropdown user={userStore.user} handleLogout={handleLogout} />
+          </li>
+          <li>
+            <ThemeDropdown />
           </li>
         </ul>
       </nav>

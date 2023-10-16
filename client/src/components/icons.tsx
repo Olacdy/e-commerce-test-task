@@ -3,8 +3,10 @@ import {
   ArrowBigUp,
   ChevronDown,
   Minus,
+  Moon,
   Plus,
   ShoppingCart,
+  Sun,
   Trash2,
   UserCircle2,
   UserCog,
@@ -25,6 +27,8 @@ export const Icons = {
   promote: ArrowBigUp,
   profile: UserCog,
   delete: Trash2,
+  light: Sun,
+  dark: Moon,
   cross: ({ ...props }: LucideProps) => (
     <Plus className={cn('rotate-45', props.className)} />
   ),
