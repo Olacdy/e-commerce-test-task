@@ -25,6 +25,9 @@ export const Icons = {
   promote: ArrowBigUp,
   profile: UserCog,
   delete: Trash2,
+  cross: ({ ...props }: LucideProps) => (
+    <Plus className={cn('rotate-45', props.className)} />
+  ),
   menu: ({ ...props }: LucideProps) => (
     <svg
       xmlns='http://www.w3.org/2000/svg'

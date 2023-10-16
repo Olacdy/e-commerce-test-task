@@ -62,7 +62,7 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
   });
 
   return (
-    <div className='w-full max-w-lg px-10 md:max-w-3xl lg:max-w-6xl'>
+    <div className='w-full max-w-lg px-10 pb-28 md:max-w-3xl lg:max-w-6xl'>
       <div className='flex items-center justify-between gap-4 py-4'>
         <Input
           placeholder='Filter name...'

@@ -22,9 +22,10 @@ type OrdersProps = {};
 
 const Orders: FC<OrdersProps> = ({}) => {
   const token = useTokenStore((state) => state.token);
-  const { cart, total, clearCart } = useCartStore((state) => ({
+  const { cart, total, deleteFromCart, clearCart } = useCartStore((state) => ({
     cart: state.cart,
     total: state.total(),
+    deleteFromCart: state.deleteFromCart,
     clearCart: state.clearCart,
   }));
 
@@ -121,6 +122,17 @@ const Orders: FC<OrdersProps> = ({}) => {
     }
   };
 
+  const handleClearCart = () => {
+    clearCart();
+    setTabValue('orders');
+  };
+
+  const handleDeleteFromCart = (cartItem: OrderDescriptionType) => {
+    deleteFromCart(cartItem);
+
+    if (cart.length === 1) setTabValue('orders');
+  };
+
   return (
     <section className='flex w-full max-w-lg flex-col px-10 pb-10 md:max-w-3xl lg:max-w-6xl'>
       <Tabs
@@ -131,21 +143,32 @@ const Orders: FC<OrdersProps> = ({}) => {
           <TabsTrigger disabled={cart.length < 1} value='cart'>
             Cart
           </TabsTrigger>
-          <TabsTrigger value='orders'>Order</TabsTrigger>
+          <TabsTrigger value='orders'>Orders</TabsTrigger>
         </TabsList>
         <TabsContent value='orders'>
           <OrdersTable orders={orders} />
         </TabsContent>
         <TabsContent value='cart' className='flex flex-col gap-32 pt-12'>
-          <OrderDescription orderDescriptions={cart} />
+          <OrderDescription
+            orderDescriptions={cart}
+            handleDeleteFromCart={handleDeleteFromCart}
+          />
 
-          <div className='flex items-center gap-5 self-end'>
-            <p className='text-xl'>
-              Total: <span>{total}</span>
-            </p>
-            <Button onClick={handleOrderConfirm} className='px-7 text-base'>
-              Confirm
+          <div className='flex flex-col-reverse items-end justify-between gap-5 sm:flex-row sm:items-center'>
+            <Button
+              variant='outline'
+              onClick={handleClearCart}
+              className='whitespace-nowrap text-base'>
+              Clear Cart
             </Button>
+            <div className='flex items-center gap-5'>
+              <p className='text-xl'>
+                Total: <span>{total}</span>
+              </p>
+              <Button onClick={handleOrderConfirm} className='px-7 text-base'>
+                Confirm
+              </Button>
+            </div>
           </div>
         </TabsContent>
       </Tabs>

@@ -9,6 +9,7 @@ type CartStoreType = {
   isIncrease: (cartItem: OrderDescriptionType) => boolean;
   increaseItemQuantity: (cartItem: OrderDescriptionType) => void;
   total: () => number;
+  deleteFromCart: (cartItem: OrderDescriptionType) => void;
   clearCart: () => void;
 };
 
@@ -48,6 +49,11 @@ const useCartStore = create<CartStoreType>()(
             return accumulator + ct.quantity * ct.item.price;
           }, 0) * 100
         ) / 100,
+      deleteFromCart: (cartItem: OrderDescriptionType) => {
+        set({
+          cart: get().cart.filter((ct) => ct.item.id !== cartItem.item.id),
+        });
+      },
       clearCart: () => set({ cart: [] }),
     }),
     {
