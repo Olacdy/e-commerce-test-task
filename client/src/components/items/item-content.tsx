@@ -1,38 +1,39 @@
 import { FC, useState } from 'react';
 
+import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
 
 import { Icons } from '@/components/icons';
 
-import { CartItemType } from '@/types/cart-type';
 import { ItemType } from '@/types/item-type';
-import { toast } from 'sonner';
+import { OrderDescriptionType } from '@/types/order-description-type';
 
 type ItemContentProps = {
   item: ItemType;
-  addToCart: (cartItem: CartItemType) => void;
+  addToCart: (cartItem: OrderDescriptionType) => void;
 };
 
 const ItemContent: FC<ItemContentProps> = ({ item, addToCart }) => {
-  const [amount, setAmount] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(0);
 
   const increaseCount = () => {
-    setAmount((prev) => prev + 1);
+    setQuantity((prev) => prev + 1);
   };
 
   const decreaseCount = () => {
-    setAmount((prev) => {
-      const newAmount = prev - 1;
-      if (newAmount > 0) return newAmount;
+    setQuantity((prev) => {
+      const newQuantity = prev - 1;
+      if (newQuantity > 0) return newQuantity;
       return 0;
     });
   };
 
   const handleAddToCart = () => {
-    addToCart({ item: item, amount: amount });
-    if (amount > 0) {
-      toast.success(`${amount} of ${item.name} added to cart.`);
-      setAmount(0);
+    addToCart({ item: item, quantity: quantity });
+    if (quantity > 0) {
+      toast.success(`${quantity} of ${item.name} added to cart.`);
+      setQuantity(0);
     }
   };
 
@@ -46,7 +47,7 @@ const ItemContent: FC<ItemContentProps> = ({ item, addToCart }) => {
             onClick={increaseCount}>
             <Icons.plus />
           </Button>
-          <span>{amount}</span>
+          <span>{quantity}</span>
           <Button
             className='px-3'
             variant='destructive'

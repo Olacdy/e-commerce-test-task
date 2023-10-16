@@ -10,10 +10,10 @@ module Api
         if @current_user
           if @current_user.role != "admin"
             @orders = Order.where(user_id: @current_user.id)
-            render json: OrderSerializer.new(@orders).serializable_hash[:data].map { |item| item[:attributes] }
+            render json: OrderSerializer.new(@orders.reverse).serializable_hash[:data].map { |item| item[:attributes] }
           else
             @orders = Order.all
-            render json: OrderSerializer.new(@orders).serializable_hash[:data].map { |item| item[:attributes] }
+            render json: OrderSerializer.new(@orders.reverse).serializable_hash[:data].map { |item| item[:attributes] }
           end
         else
           render status: :unauthorized

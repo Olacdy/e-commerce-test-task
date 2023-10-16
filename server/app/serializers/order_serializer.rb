@@ -1,5 +1,8 @@
 class OrderSerializer
   include JSONAPI::Serializer
+
+  set_key_transform :camel_lower
+
   attributes :id, :created_at, :amount, :order_descriptions
 
   attribute :order_descriptions do |object|

@@ -25,3 +25,34 @@ export function getUserName(user: UserType | null) {
 
   return 'Profile';
 }
+
+export function formatDate(date: Date) {
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const formattedDay = day.toString().padStart(2, '0');
+  const formattedHours = hours.toString().padStart(2, '0');
+  const formattedMinutes = minutes.toString().padStart(2, '0');
+
+  const formattedDate = `${formattedDay} ${month} ${year} ${formattedHours}:${formattedMinutes}`;
+
+  return formattedDate;
+}

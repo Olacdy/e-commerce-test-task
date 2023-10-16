@@ -1,6 +1,6 @@
 import { ItemType } from '@/types/item-type';
 
-export type CartItemType = {
+export type OrderDescriptionType = {
   item: ItemType;
-  amount: number;
+  quantity: number;
 };

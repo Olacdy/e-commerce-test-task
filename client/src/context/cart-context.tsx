@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { CartItemType } from '@/types/cart-type';
+import { OrderDescriptionType } from '@/types/order-description-type';
 
 type CartStoreType = {
-  cart: CartItemType[];
-  addToCart: (cartItem: CartItemType) => void;
-  isIncrease: (cartItem: CartItemType) => boolean;
-  increaseItemAmount: (cartItem: CartItemType) => void;
+  cart: OrderDescriptionType[];
+  addToCart: (cartItem: OrderDescriptionType) => void;
+  isIncrease: (cartItem: OrderDescriptionType) => boolean;
+  increaseItemQuantity: (cartItem: OrderDescriptionType) => void;
   total: () => number;
   clearCart: () => void;
 };
@@ -16,28 +16,28 @@ const useCartStore = create<CartStoreType>()(
   persist(
     (set, get) => ({
       cart: [],
-      addToCart: (cartItem: CartItemType) => {
-        if (cartItem.amount > 0) {
+      addToCart: (cartItem: OrderDescriptionType) => {
+        if (cartItem.quantity > 0) {
           if (!get().isIncrease(cartItem))
             set({ cart: [cartItem, ...get().cart] });
-          else get().increaseItemAmount(cartItem);
+          else get().increaseItemQuantity(cartItem);
         }
       },
-      isIncrease: (cartItem: CartItemType) =>
+      isIncrease: (cartItem: OrderDescriptionType) =>
         get().cart.some((ct) => {
           return ct.item.id === cartItem.item.id;
         }),
-      increaseItemAmount: (cartItem: CartItemType) => {
+      increaseItemQuantity: (cartItem: OrderDescriptionType) => {
         const oldAmount = get().cart.find(
           (ct) => ct.item.id === cartItem.item.id
-        )?.amount!;
+        )?.quantity!;
         const newCartItems = get().cart.filter(
           (ct) => ct.item.id !== cartItem.item.id
         );
 
         set({
           cart: [
-            { ...cartItem, amount: oldAmount + cartItem.amount },
+            { ...cartItem, quantity: oldAmount + cartItem.quantity },
             ...newCartItems,
           ],
         });
@@ -45,7 +45,7 @@ const useCartStore = create<CartStoreType>()(
       total: () =>
         Math.round(
           get().cart.reduce((accumulator, ct) => {
-            return accumulator + ct.amount * ct.item.price;
+            return accumulator + ct.quantity * ct.item.price;
           }, 0) * 100
         ) / 100,
       clearCart: () => set({ cart: [] }),
