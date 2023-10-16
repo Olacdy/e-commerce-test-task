@@ -68,6 +68,7 @@ const Orders: FC<OrdersProps> = ({}) => {
                 } satisfies OrderDescriptionType;
               }
             ),
+            userEmail: rawOrder.userEmail,
           } satisfies OrderType;
         });
 

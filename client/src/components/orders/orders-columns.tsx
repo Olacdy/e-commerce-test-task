@@ -23,6 +23,12 @@ export const columns: ColumnDef<OrderType>[] = [
     ),
   },
   {
+    accessorKey: 'userEmail',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='User Email' />
+    ),
+  },
+  {
     id: 'collapse',
     enableHiding: false,
   },
