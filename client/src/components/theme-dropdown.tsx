@@ -20,12 +20,10 @@ type ThemeDropdownProps = {};
 const ThemeDropdown: FC<ThemeDropdownProps> = ({}) => {
   const { theme, changeTheme } = useTheme();
 
-  console.log(theme);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='ghost'>
+        <Button variant='ghost' size='icon'>
           {theme === 'light' ? <Icons.light /> : <Icons.dark />}{' '}
         </Button>
       </DropdownMenuTrigger>
