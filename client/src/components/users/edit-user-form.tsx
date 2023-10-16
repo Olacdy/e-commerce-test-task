@@ -26,9 +26,7 @@ import useUserStore from '@/context/user-context';
 
 import { getApiUrl } from '@/lib/utils';
 
-import { editUserSchema } from '@/schemas/user-schema';
-
-import { UserType } from '@/types/user-type';
+import { editUserSchema, userSchema, UserType } from '@/schemas/user-schemas';
 
 type EditUserFormProps = {
   user: UserType;
@@ -71,18 +69,20 @@ const EditUserForm: FC<EditUserFormProps> = ({ user, updateUser, me }) => {
 
       if (!response.ok) throw new Error(`${response.status}`);
 
-      const data = await response.json();
+      const rawUser = await response.json();
+
+      const parsedUser = await userSchema.parseAsync(rawUser);
 
       if (me) {
-        userStore.setUser(data as UserType);
+        userStore.setUser(parsedUser as UserType);
       }
 
-      form.reset(data);
+      form.reset(parsedUser);
 
-      updateUser(data as UserType);
+      updateUser(parsedUser as UserType);
 
       toast.success(`${me ? 'Your' : 'User'} profile has been updated.`);
-    } catch (error: any) {
+    } catch (error) {
       toast.error('Something went wrong, try again.');
     } finally {
       setIsLoading(false);

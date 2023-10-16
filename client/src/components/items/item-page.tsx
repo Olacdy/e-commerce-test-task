@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { toast } from 'sonner';
 
@@ -10,11 +10,9 @@ import useTokenStore from '@/context/token-context';
 
 import { getApiUrl } from '@/lib/utils';
 
-import { ItemType } from '@/types/item-type';
+import { ItemType } from '@/schemas/item-schemas';
 
-type ItemPageProps = {};
-
-const ItemPage: FC<ItemPageProps> = ({}) => {
+const ItemPage = () => {
   const { itemId } = useParams();
 
   const token = useTokenStore((state) => state.token);
@@ -44,15 +42,15 @@ const ItemPage: FC<ItemPageProps> = ({}) => {
 
         setItem(data);
       } catch (error) {
-        toast.error('Failed to fetch item. Try again later.');
+        toast.error('Something went wrong. Unable to fetch item.');
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (!!itemId) fetchItem();
+    if (itemId) fetchItem();
     else setIsLoading(false);
-  }, []);
+  }, [token, itemId]);
 
   if (isLoading) return <p>Loading...</p>;
 

@@ -4,7 +4,7 @@ import { DataTableColumnHeader } from '@/components/ui/datatable-column-header';
 
 import { formatDate } from '@/lib/utils';
 
-import { OrderType } from '@/types/order-type';
+import { OrderType } from '@/schemas/order-schemas';
 
 export const columns: ColumnDef<OrderType>[] = [
   {

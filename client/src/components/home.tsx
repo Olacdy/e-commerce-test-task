@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 
+import { toast } from 'sonner';
+
 import ItemsTable from '@/components/items/items-table';
 
 import useTokenStore from '@/context/token-context';
 
 import { getApiUrl } from '@/lib/utils';
 
-import { ItemType } from '@/types/item-type';
+import { ItemType, itemsSchema } from '@/schemas/item-schemas';
 
 const Home = () => {
   const token = useTokenStore((store) => store.token);
@@ -23,20 +25,19 @@ const Home = () => {
         },
       };
 
-      const response = await fetch(`${getApiUrl()}/items`, requestOptions);
+      try {
+        const response = await fetch(`${getApiUrl()}/items`, requestOptions);
 
-      const rawItems = await response.json();
+        if (!response.ok) throw new Error(`${response.status}`);
 
-      const formattedItems = rawItems.map((rawItem: any) => {
-        return {
-          id: rawItem.id,
-          name: rawItem.name,
-          description: rawItem.description,
-          price: parseFloat(rawItem.price),
-        } satisfies ItemType;
-      });
+        const rawItems = await response.json();
 
-      setItems(formattedItems);
+        const parsedItems = await itemsSchema.parseAsync(rawItems);
+
+        setItems(parsedItems);
+      } catch (error) {
+        toast.error('Something went wrong. Unable to fetch items.');
+      }
     };
 
     fetchItems();

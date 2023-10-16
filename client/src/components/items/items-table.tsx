@@ -1,5 +1,7 @@
 import { FC, useState } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import {
   ColumnFiltersState,
   flexRender,
@@ -10,6 +12,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
+import { Button } from '@/components/ui/button';
 import {
   Collapsible,
   CollapsibleContent,
@@ -33,9 +36,7 @@ import { columns } from '@/components/items/items-columns';
 import useCartStore from '@/context/cart-context';
 import useUserStore from '@/context/user-context';
 
-import { ItemType } from '@/types/item-type';
-import { Link } from 'react-router-dom';
-import { Button } from '../ui/button';
+import { ItemType } from '@/schemas/item-schemas';
 
 type ItemsTableProps = {
   items: ItemType[];

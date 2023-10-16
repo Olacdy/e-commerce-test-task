@@ -1,5 +1,3 @@
-import { FC } from 'react';
-
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -15,9 +13,7 @@ import { Icons } from '@/components/icons';
 
 import { Theme, useTheme } from '@/context/theme-context';
 
-type ThemeDropdownProps = {};
-
-const ThemeDropdown: FC<ThemeDropdownProps> = ({}) => {
+const ThemeDropdown = () => {
   const { theme, changeTheme } = useTheme();
 
   return (

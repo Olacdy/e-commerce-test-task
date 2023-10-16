@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 import { Icons } from '@/components/icons';
 
-import { OrderDescriptionType } from '@/types/order-description-type';
+import { OrderDescriptionType } from '@/schemas/order-schemas';
 
 type OrderDescriptionProps = {
   orderDescriptions: OrderDescriptionType[];

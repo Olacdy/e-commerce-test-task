@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { DataTableColumnHeader } from '@/components/ui/datatable-column-header';
 
-import { ItemType } from '@/types/item-type';
+import { ItemType } from '@/schemas/item-schemas';
 
 export const columns: ColumnDef<ItemType>[] = [
   {

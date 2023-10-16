@@ -12,8 +12,8 @@ import useUserStore from '@/context/user-context';
 
 import { cn } from '@/lib/utils';
 
-import { ItemType } from '@/types/item-type';
-import { OrderDescriptionType } from '@/types/order-description-type';
+import { ItemType } from '@/schemas/item-schemas';
+import { OrderDescriptionType } from '@/schemas/order-schemas';
 
 type ItemContentProps = {
   item: ItemType;

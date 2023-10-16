@@ -33,7 +33,7 @@ import { columns } from '@/components/orders/orders-columns';
 
 import useUserStore from '@/context/user-context';
 
-import { OrderType } from '@/types/order-type';
+import { OrderType } from '@/schemas/order-schemas';
 
 type OrdersTableProps = {
   orders: OrderType[];

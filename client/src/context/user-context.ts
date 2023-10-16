@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-import { UserType } from '@/types/user-type';
-
 import { getApiUrl } from '@/lib/utils';
+
+import { UserType } from '@/schemas/user-schemas';
 
 type UserStoreType = {
   user: UserType | null;

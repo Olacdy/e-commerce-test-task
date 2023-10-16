@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { OrderDescriptionType } from '@/types/order-description-type';
+import { OrderDescriptionType } from '@/schemas/order-schemas';
 
 type CartStoreType = {
   cart: OrderDescriptionType[];
@@ -29,9 +29,10 @@ const useCartStore = create<CartStoreType>()(
           return ct.item.id === cartItem.item.id;
         }),
       increaseItemQuantity: (cartItem: OrderDescriptionType) => {
-        const oldAmount = get().cart.find(
-          (ct) => ct.item.id === cartItem.item.id
-        )?.quantity!;
+        const oldAmount =
+          get().cart.find((ct) => ct.item.id === cartItem.item.id)?.quantity ||
+          0;
+
         const newCartItems = get().cart.filter(
           (ct) => ct.item.id !== cartItem.item.id
         );

@@ -24,11 +24,9 @@ import { Textarea } from '@/components/ui/textarea';
 
 import useTokenStore from '@/context/token-context';
 
-import { itemSchema } from '@/schemas/item-schema';
+import { ItemType, formItemSchema } from '@/schemas/item-schemas';
 
 import { getApiUrl } from '@/lib/utils';
-
-import { ItemType } from '@/types/item-type';
 
 type ItemFormProps = {
   item?: ItemType;
@@ -41,8 +39,8 @@ const ItemForm: FC<ItemFormProps> = ({ item }) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof itemSchema>>({
-    resolver: zodResolver(itemSchema),
+  const form = useForm<z.infer<typeof formItemSchema>>({
+    resolver: zodResolver(formItemSchema),
     defaultValues: {
       name: item?.name || '',
       description: item?.description || '',
@@ -50,7 +48,7 @@ const ItemForm: FC<ItemFormProps> = ({ item }) => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof itemSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formItemSchema>) => {
     setIsLoading(true);
 
     const requestOptions = {

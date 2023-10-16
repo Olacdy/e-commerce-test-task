@@ -32,9 +32,7 @@ import useUserStore from '@/context/user-context';
 
 import { cn, getApiUrl } from '@/lib/utils';
 
-import { signInSchema } from '@/schemas/auth-schemas';
-
-import { UserType } from '@/types/user-type';
+import { signInSchema, userSchema } from '@/schemas/user-schemas';
 
 const SignIn = () => {
   const tokenStore = useTokenStore();
@@ -67,19 +65,22 @@ const SignIn = () => {
 
       if (!response.ok) throw new Error(`${response.status}`);
 
-      const user = (await response.json()).data;
+      const rawUser = (await response.json()).data;
+      const parsedUser = await userSchema.parseAsync(rawUser);
       const token = response.headers.get('Authorization')?.split(' ')[1];
 
       tokenStore.setToken(token as string);
-      userStore.setUser(user as UserType);
+      userStore.setUser(parsedUser);
 
       form.reset();
-    } catch (error: any) {
+    } catch (error) {
       form.resetField('password');
 
-      if (error.message == 401) {
-        toast.error('Invalid credentials.');
-        return;
+      if (error instanceof Error) {
+        if (error.message === '401') {
+          toast.error('Invalid credentials.');
+          return;
+        }
       }
 
       toast.error('Something went wrong, try again.');

@@ -11,14 +11,14 @@ import { getApiUrl } from '@/lib/utils';
 import { UserType } from '@/types/user-type';
 
 const EditUser = () => {
-  let { userId } = useParams();
+  const { userId } = useParams();
 
   const token = useTokenStore((store) => store.token);
 
   const [user, setUser] = useState<UserType>();
 
   useEffect(() => {
-    const fetchUser = async (me?: boolean) => {
+    const fetchUser = async (userId?: string) => {
       const requestOptions = {
         headers: {
           Accept: '*/*',
@@ -28,7 +28,7 @@ const EditUser = () => {
       };
 
       const response = await fetch(
-        `${getApiUrl()}/users/${me ? 'me' : userId}`,
+        `${getApiUrl()}/users/${userId ? userId : 'me'}`,
         requestOptions
       );
 
@@ -37,11 +37,11 @@ const EditUser = () => {
       setUser(data);
     };
 
-    fetchUser(!!!userId);
-  }, [userId]);
+    fetchUser(userId);
+  }, [token, userId]);
 
   if (user) {
-    return <EditUserForm user={user} updateUser={setUser} me={!!!userId} />;
+    return <EditUserForm user={user} updateUser={setUser} me={!userId} />;
   }
 
   return <p>Loading...</p>;

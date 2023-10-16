@@ -34,9 +34,7 @@ import useUserStore from '@/context/user-context';
 
 import { cn, getApiUrl } from '@/lib/utils';
 
-import { signUpSchema } from '@/schemas/auth-schemas';
-
-import { UserType } from '@/types/user-type';
+import { signUpSchema, userSchema } from '@/schemas/user-schemas';
 
 const SignUp = () => {
   const tokenStore = useTokenStore();
@@ -72,20 +70,23 @@ const SignUp = () => {
 
       if (!response.ok) throw new Error(`${response.status}`);
 
-      const user = (await response.json()).data;
+      const rawUser = (await response.json()).data;
+      const parsedUser = await userSchema.parseAsync(rawUser);
       const token = response.headers.get('Authorization')?.split(' ')[1];
 
       tokenStore.setToken(token as string);
-      userStore.setUser(user as UserType);
+      userStore.setUser(parsedUser);
 
       form.reset();
-    } catch (error: any) {
+    } catch (error) {
       form.resetField('password');
       form.resetField('confirmPassword');
 
-      if (error.message == 422) {
-        toast.error('User with this email already exists.');
-        return;
+      if (error instanceof Error) {
+        if (error.message === '422') {
+          toast.error('User with this email already exists.');
+          return;
+        }
       }
 
       toast.error('Something went wrong, try again.');

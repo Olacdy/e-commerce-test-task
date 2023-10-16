@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { toast } from 'sonner';
 
@@ -15,12 +15,13 @@ import useTokenStore from '@/context/token-context';
 
 import { getApiUrl } from '@/lib/utils';
 
-import { OrderDescriptionType } from '@/types/order-description-type';
-import { OrderType } from '@/types/order-type';
+import {
+  OrderDescriptionType,
+  OrderType,
+  ordersSchema,
+} from '@/schemas/order-schemas';
 
-type OrdersProps = {};
-
-const Orders: FC<OrdersProps> = ({}) => {
+const Orders = () => {
   const token = useTokenStore((state) => state.token);
   const { cart, total, deleteFromCart, clearCart } = useCartStore((state) => ({
     cart: state.cart,
@@ -56,30 +57,16 @@ const Orders: FC<OrdersProps> = ({}) => {
 
         const rawOrders = await response.json();
 
-        const formattedOrders = rawOrders.map((rawOrder: any) => {
-          return {
-            createdAt: new Date(rawOrder.createdAt),
-            amount: parseFloat(rawOrder.amount),
-            orderDescriptions: rawOrder.orderDescriptions.map(
-              (orderDescription: any) => {
-                return {
-                  item: orderDescription.item,
-                  quantity: orderDescription.quantity,
-                } satisfies OrderDescriptionType;
-              }
-            ),
-            userEmail: rawOrder.userEmail,
-          } satisfies OrderType;
-        });
+        const parsedOrders = await ordersSchema.parseAsync(rawOrders);
 
-        setOrders(formattedOrders);
+        setOrders(parsedOrders);
       } catch (error) {
         toast.error('Something went wrong. Unable to fetch orders.');
       }
     };
 
     if (orders.length < 1) fetchOrders();
-  }, []);
+  }, [token, orders.length]);
 
   const handleOrderConfirm = async () => {
     const requestOptions = {

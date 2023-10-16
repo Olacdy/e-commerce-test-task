@@ -21,7 +21,6 @@ export default function ThemeContextProvider({
   const [theme, setTheme] = useState<Theme>();
 
   const changeTheme = (value: Theme) => {
-    console.log(value);
     if (value === 'dark') {
       setTheme('dark');
       window.localStorage.setItem('theme', 'dark');
