@@ -10,6 +10,7 @@ import AuthRoute from '@/components/auth/auth-route';
 import SignIn from '@/components/auth/sign-in';
 import SignUp from '@/components/auth/sign-up';
 
+import ItemPage from '@/components/items/item-page';
 import EditUser from '@/components/users/edit-user';
 import Users from '@/components/users/users';
 
@@ -27,6 +28,22 @@ const App = () => {
         }>
         <Route index element={<Home />} />
         <Route path='orders' element={<Orders />} />
+        <Route
+          path='item/:itemId'
+          element={
+            <AdminRoute>
+              <ItemPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path='item'
+          element={
+            <AdminRoute>
+              <ItemPage />
+            </AdminRoute>
+          }
+        />
         <Route path='users' element={<AdminRoute />}>
           <Route index element={<Users />} />
           <Route path=':userId' element={<EditUser />} />

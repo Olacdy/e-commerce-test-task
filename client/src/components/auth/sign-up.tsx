@@ -5,7 +5,7 @@ import * as z from 'zod';
 
 import { useForm } from 'react-hook-form';
 
-import { Link, redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { toast } from 'sonner';
 
@@ -79,8 +79,6 @@ const SignUp = () => {
       userStore.setUser(user as UserType);
 
       form.reset();
-
-      redirect('/');
     } catch (error: any) {
       form.resetField('password');
       form.resetField('confirmPassword');

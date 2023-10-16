@@ -25,9 +25,18 @@ const Home = () => {
 
       const response = await fetch(`${getApiUrl()}/items`, requestOptions);
 
-      const data = await response.json();
+      const rawItems = await response.json();
 
-      setItems(data);
+      const formattedItems = rawItems.map((rawItem: any) => {
+        return {
+          id: rawItem.id,
+          name: rawItem.name,
+          description: rawItem.description,
+          price: parseFloat(rawItem.price),
+        } satisfies ItemType;
+      });
+
+      setItems(formattedItems);
     };
 
     fetchItems();

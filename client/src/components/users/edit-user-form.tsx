@@ -26,7 +26,7 @@ import useUserStore from '@/context/user-context';
 
 import { getApiUrl } from '@/lib/utils';
 
-import { editUserSchema } from '@/schemas/user-schemas';
+import { editUserSchema } from '@/schemas/user-schema';
 
 import { UserType } from '@/types/user-type';
 
@@ -80,6 +80,8 @@ const EditUserForm: FC<EditUserFormProps> = ({ user, updateUser, me }) => {
       form.reset(data);
 
       updateUser(data as UserType);
+
+      toast.success(`${me ? 'Your' : 'User'} profile has been updated.`);
     } catch (error: any) {
       toast.error('Something went wrong, try again.');
     } finally {

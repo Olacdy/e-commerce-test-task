@@ -31,14 +31,19 @@ import ItemContent from '@/components/items/item-content';
 import { columns } from '@/components/items/items-columns';
 
 import useCartStore from '@/context/cart-context';
+import useUserStore from '@/context/user-context';
 
 import { ItemType } from '@/types/item-type';
+import { Link } from 'react-router-dom';
+import { Button } from '../ui/button';
 
 type ItemsTableProps = {
   items: ItemType[];
 };
 
 const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
+  const role = useUserStore((state) => state.user?.role);
+
   const addToCart = useCartStore((state) => state.addToCart);
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -57,8 +62,8 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
   });
 
   return (
-    <div className='w-full max-w-lg px-10 pb-10 md:max-w-3xl lg:max-w-6xl'>
-      <div className='flex items-center py-4'>
+    <div className='w-full max-w-lg px-10 md:max-w-3xl lg:max-w-6xl'>
+      <div className='flex items-center justify-between gap-4 py-4'>
         <Input
           placeholder='Filter name...'
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
@@ -67,6 +72,11 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
           }
           className='max-w-sm'
         />
+        {role === 'admin' && (
+          <Link className='min-w-fit' to='/item'>
+            <Button>Add Item</Button>
+          </Link>
+        )}
       </div>
       <div className='rounded-md border'>
         <Table className=''>
