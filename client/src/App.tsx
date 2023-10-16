@@ -28,25 +28,13 @@ const App = () => {
         }>
         <Route index element={<Home />} />
         <Route path='orders' element={<Orders />} />
-        <Route
-          path='item/:itemId'
-          element={
-            <AdminRoute>
-              <ItemPage />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path='item'
-          element={
-            <AdminRoute>
-              <ItemPage />
-            </AdminRoute>
-          }
-        />
-        <Route path='users' element={<AdminRoute />}>
-          <Route index element={<Users />} />
-          <Route path=':userId' element={<EditUser />} />
+        <Route element={<AdminRoute />}>
+          <Route path='item/:itemId' element={<ItemPage />} />
+          <Route path='item' element={<ItemPage />} />
+          <Route path='users'>
+            <Route index element={<Users />} />
+            <Route path=':userId' element={<EditUser />} />
+          </Route>
         </Route>
         <Route path='profile' element={<EditUser />} />
       </Route>
