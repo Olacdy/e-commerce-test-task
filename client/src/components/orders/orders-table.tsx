@@ -99,7 +99,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                     </TableRow>
                     <CollapsibleContent asChild>
                       <tr>
-                        <TableCell colSpan={3}>
+                        <TableCell colSpan={3} className='py-7 pl-6 pr-10'>
                           <OrderDescription
                             orderDescriptions={row.original.orderDescriptions}
                           />
