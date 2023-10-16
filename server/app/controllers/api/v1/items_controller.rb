@@ -7,37 +7,67 @@ module Api
       def index
         @items = Item.all
 
-        render json: @items
+        render json: ItemSerializer.new(@items).serializable_hash[:data].map { |item| item[:attributes] }
       end
 
       # GET /items/1
       def show
-        render json: @item
+        render json: ItemSerializer.new(@item).serializable_hash[:data][:attributes]
       end
 
       # POST /items
       def create
-        @item = Item.new(item_params)
+        @current_user = current_user
 
-        if @item.save
-          render json: @item, status: :created, location: @item
+        if @current_user
+          if @current_user.role == "admin"
+            @item = Item.new(item_params)
+
+            if @item.save
+              render json: ItemSerializer.new(@item).serializable_hash[:data][:attributes], status: :created, location: @item
+            else
+              render json: @item.errors, status: :unprocessable_entity
+            end
+          else
+            render status: :unauthorized
+          end
         else
-          render json: @item.errors, status: :unprocessable_entity
+          render status: :unauthorized
         end
       end
 
       # PATCH/PUT /items/1
       def update
-        if @item.update(item_params)
-          render json: @item
+        @current_user = current_user
+
+        if @current_user
+          if @current_user.role == "admin"
+            if @item.update(item_params)
+              render json: ItemSerializer.new(@item).serializable_hash[:data][:attributes]
+            else
+              render json: @item.errors, status: :unprocessable_entity
+            end
+          else
+            render status: :unauthorized
+          end
         else
-          render json: @item.errors, status: :unprocessable_entity
+          render status: :unauthorized
         end
       end
 
       # DELETE /items/1
       def destroy
-        @item.destroy!
+        @current_user = current_user
+
+        if @current_user
+          if @current_user.role == "admin"
+            @item.destroy!
+          else
+            render status: :unauthorized
+          end
+        else
+          render status: :unauthorized
+        end
       end
 
       private
