@@ -4,12 +4,12 @@ lock "~> 3.17.3"
 set :application, "e-commerce-api"
 set :repo_url, "https://github.com/Olacdy/e-commerce-test-task.git"
 
-set :branch, `git rev-parse --abbrev-ref develop`.chomp
+set :branch, "develop"
+
+set :repo_tree, '/server'
 
 # Deploy to the user's home directory
 set :deploy_to, "/home/deploy/#{fetch :application}"
-
-set :repo_tree, './server'
 
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 
