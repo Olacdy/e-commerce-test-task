@@ -29,12 +29,12 @@ import { Icons } from '@/components/icons';
 import DeleteUserDialog from '@/components/users/delete-user-dialog';
 import { columns } from '@/components/users/users-columns';
 
-import { UserType } from '@/types/user-type';
+import { UserType } from '@/schemas/user-schemas';
 
 type UsersTableProps = {
   users: UserType[];
-  handlePromote: (userId: string) => void;
-  handleDelete: (userId: string) => void;
+  handlePromote: (userId: number) => void;
+  handleDelete: (userId: number) => void;
 };
 
 const UsersTable: FC<UsersTableProps> = ({
@@ -42,7 +42,7 @@ const UsersTable: FC<UsersTableProps> = ({
   handlePromote,
   handleDelete,
 }) => {
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [isDialogOpened, setIsDialogOpened] = useState<boolean>(false);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 

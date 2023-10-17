@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 
 import { twMerge } from 'tailwind-merge';
 
-import { UserType } from '@/types/user-type';
+import { UserType } from '@/schemas/user-schemas';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function getApiUrl() {
   if (import.meta.env.PROD)
-    return `https://${process.env.VITE_API_ENDPOINT}/api/v1`;
+    return `http://${import.meta.env.VITE_API_ENDPOINT}/api/v1`;
 
   return 'http://localhost:3000/api/v1';
 }

@@ -8,7 +8,7 @@ import useTokenStore from '@/context/token-context';
 
 import { getApiUrl } from '@/lib/utils';
 
-import { UserType } from '@/types/user-type';
+import { UserType } from '@/schemas/user-schemas';
 
 const EditUser = () => {
   const { userId } = useParams();
