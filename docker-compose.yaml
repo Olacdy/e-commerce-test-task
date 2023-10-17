@@ -3,11 +3,9 @@ version: "3.9"
 services:
   db:
     image: postgres:14.1-alpine
-    restart: always
-    environment:
-      - POSTGRES_DB=e_commerce_test_task_production
-      - POSTGRES_USER=e_commerce_test_task
-      - POSTGRES_PASSWORD=e_commerce_test_task
+    restart: unless-stopped
+    env_file:
+      - /postgres/.env
     ports:
       - 5432:5432
     volumes:
@@ -15,28 +13,30 @@ services:
   server:
     build:
       context: ./server
-    ports:
-      - 3000:3000
-    restart: always
-    environment:
-      - SECRET_KEY_BASE=secret-key
-      - POSTGRES_USER=e_commerce_test_task
-      - POSTGRES_PASSWORD=e_commerce_test_task
+      dockerfile: ./Dockerfile.dev
+    expose:
+      - 3000
+    restart: unless-stopped
+    env_file:
+      - /server/.env
+    command: bundle exec rails s -b 0.0.0.0
+    volumes:
+      - staticfiles:/server/staticfiles
     depends_on:
       - db
-    volumes:
-      - staticfiles:/backend/staticfiles
   nginx:
+    container_name: nginx
     build:
       context: .
       dockerfile: ./webserver/Dockerfile
-    restart: always
+    restart: unless-stopped
     volumes:
       - staticfiles:/staticfiles
     ports:
       - 80:80
     depends_on:
       - server
+
 volumes:
   staticfiles:
   postgres_data:

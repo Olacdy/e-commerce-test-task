@@ -8,6 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.find_or_create_by!(email: 'admin@admin.com',
+User.find_or_create_by!(first_name: 'Admin', last_name: "Admin",
+                        email: 'admin@admin.com',
                         password: 'admin_admin',
                         role: User.roles[:admin])

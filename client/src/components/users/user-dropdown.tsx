@@ -16,7 +16,7 @@ import { Icons } from '@/components/icons';
 
 import { getUserName } from '@/lib/utils';
 
-import { UserType } from '@/types/user-type';
+import { UserType } from '@/schemas/user-schemas';
 
 type UserDropdownProps = {
   user: UserType | null;

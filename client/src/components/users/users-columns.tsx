@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { DataTableColumnHeader } from '@/components/ui/datatable-column-header';
 
-import { UserType } from '@/types/user-type';
+import { UserType } from '@/schemas/user-schemas';
 
 export const columns: ColumnDef<UserType>[] = [
   {

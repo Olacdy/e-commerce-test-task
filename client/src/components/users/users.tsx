@@ -8,14 +8,14 @@ import useTokenStore from '@/context/token-context';
 
 import { getApiUrl } from '@/lib/utils';
 
-import { UserType } from '@/types/user-type';
+import { UserType } from '@/schemas/user-schemas';
 
 const Users = () => {
   const token = useTokenStore((store) => store.token);
 
   const [users, setUsers] = useState<UserType[]>([]);
 
-  const handlePromote = async (userId: string) => {
+  const handlePromote = async (userId: number) => {
     const requestOptions = {
       method: 'PUT',
       headers: {
@@ -45,7 +45,7 @@ const Users = () => {
     }
   };
 
-  const handleDelete = async (userId: string) => {
+  const handleDelete = async (userId: number) => {
     const requestOptions = {
       method: 'DELETE',
       headers: {
