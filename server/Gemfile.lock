@@ -202,8 +202,6 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     ruby2_keywords (0.0.5)
-    sqlite3 (1.6.7-x64-mingw-ucrt)
-    sqlite3 (1.6.7-x86_64-linux)
     stringio (3.0.8)
     thor (1.2.2)
     timeout (0.4.0)
@@ -239,7 +237,6 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.1.1)
   rake
-  sqlite3
   tzinfo-data
 
 RUBY VERSION
