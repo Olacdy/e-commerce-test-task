@@ -4,7 +4,7 @@ lock "~> 3.17.3"
 set :application, "e-commerce-api"
 set :repo_url, "https://github.com/Olacdy/e-commerce-test-task.git"
 
-set :branch, "develop"
+set :branch, "deployment"
 
 set :repo_tree, '/server'
 
