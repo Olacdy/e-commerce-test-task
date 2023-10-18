@@ -9,9 +9,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getApiUrl() {
+  if (import.meta.env.PROD && import.meta.env.VITE_API_ENDPOINT !== 'localhost')
+    return `https://${import.meta.env.VITE_API_ENDPOINT}/api/v1`;
   if (import.meta.env.PROD)
     return `http://${import.meta.env.VITE_API_ENDPOINT}/api/v1`;
-
   return 'http://localhost:3000/api/v1';
 }
 
