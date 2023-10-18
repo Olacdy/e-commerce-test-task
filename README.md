@@ -16,4 +16,4 @@
 
 ### Access on the web
 
-Go to this [Link](https://link-url-here.org)
+Go to this [Link](https://ecommercetesttaskapirails.pp.ua)
