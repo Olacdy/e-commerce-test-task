@@ -12,33 +12,37 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
   server:
-    container_name: rails-production-like-server
+    container_name: rails-development-server
     build:
       context: ./server
-      dockerfile: ./Dockerfile
-    expose:
-      - 3000
+      dockerfile: ./Dockerfile.dev
+    stdin_open: true
+    tty: true
+    ports:
+      - 3000:3000
     restart: unless-stopped
     env_file:
       - /server/.env
     command: bundle exec rails s -b 0.0.0.0
     volumes:
-      - staticfiles:/server/staticfiles
+      - ./server:/server:cached
+      - bundle-volume:/usr/local/bundle
     depends_on:
       - db
-  nginx:
-    container_name: nginx
+  client:
+    container_name: vite-development-server
     build:
-      context: .
-      dockerfile: ./webserver/Dockerfile
-    restart: unless-stopped
-    volumes:
-      - staticfiles:/staticfiles
+      context: ./client
+      dockerfile: ./Dockerfile
+    stdin_open: true
+    tty: true
     ports:
-      - 80:80
+      - 8000:8000
+    volumes:
+      - ./client/src:/client/src
     depends_on:
       - server
 
 volumes:
-  staticfiles:
+  bundle-volume:
   postgres_data:

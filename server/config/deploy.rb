@@ -4,7 +4,7 @@ lock "~> 3.17.3"
 set :application, "e-commerce-api"
 set :repo_url, "https://github.com/Olacdy/e-commerce-test-task.git"
 
-set :branch, "develop"
+set :branch, "deployment"
 
 set :repo_tree, '/server'
 
@@ -15,6 +15,8 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 
 # Only keep the last 5 releases to save disk space
 set :keep_releases, 5
+
+after 'deploy:migrating', 'database:seed'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
