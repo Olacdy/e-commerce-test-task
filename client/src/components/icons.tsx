@@ -2,6 +2,8 @@ import { cn } from '@/lib/utils';
 import {
   ArrowBigUp,
   ChevronDown,
+  Eye,
+  EyeOff,
   Minus,
   Moon,
   Plus,
@@ -29,6 +31,8 @@ export const Icons = {
   delete: Trash2,
   light: Sun,
   dark: Moon,
+  eye: Eye,
+  eyeOff: EyeOff,
   cross: ({ ...props }: LucideProps) => (
     <Plus className={cn('rotate-45', props.className)} />
   ),

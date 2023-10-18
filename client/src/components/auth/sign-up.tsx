@@ -34,6 +34,7 @@ import useUserStore from '@/context/user-context';
 
 import { cn, getApiUrl } from '@/lib/utils';
 
+import PasswordInput from '@/components/auth/password-input';
 import { signUpSchema, userSchema } from '@/schemas/user-schemas';
 
 const SignUp = () => {
@@ -166,12 +167,7 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type='password'
-                        disabled={isLoading}
-                        placeholder='Password'
-                        {...field}
-                      />
+                      <PasswordInput isLoading={isLoading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -183,10 +179,9 @@ const SignUp = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input
-                        type='password'
-                        disabled={isLoading}
-                        placeholder='Confirm Password'
+                      <PasswordInput
+                        isLoading={isLoading}
+                        placeholder={'Confirm Password'}
                         {...field}
                       />
                     </FormControl>
