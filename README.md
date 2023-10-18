@@ -10,10 +10,10 @@
 
 3. Populate rails credentials file with `rails credentials:edit`
 
-4. Run with `docker-compose up`
+4. Run with `docker-compose up --build`
 
-5. To run development servers `docker-compose -f docker-compose-dev.yaml up`
+5. To run development servers `docker-compose -f docker-compose-dev.yaml up --build`
 
 ### Access on the web
 
-Go to this [Link](https://ecommercetesttaskapirails.pp.ua)
+Go to this [Link](https://olacdy.github.io/e-commerce-test-task/)
