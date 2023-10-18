@@ -27,6 +27,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+import PasswordInput from '@/components/auth/password-input';
+
 import useTokenStore from '@/context/token-context';
 import useUserStore from '@/context/user-context';
 
@@ -123,12 +125,7 @@ const SignIn = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      type='password'
-                      disabled={isLoading}
-                      placeholder='Password'
-                      {...field}
-                    />
+                    <PasswordInput isLoading={isLoading} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
