@@ -32,10 +32,10 @@ const Header = () => {
 
   return (
     <header className='flex w-full max-w-lg p-5 md:max-w-3xl lg:max-w-6xl'>
-      <nav className='flex items-center justify-between flex-1'>
+      <nav className='flex flex-1 items-center justify-between'>
         <Link to='/'>
           <span className='text-xl font-bold uppercase md:text-3xl'>
-            E-Commercee
+            E-Commerce
           </span>
         </Link>
         <ul className='flex items-center gap-3 sm:gap-5'>
@@ -48,12 +48,12 @@ const Header = () => {
               </Link>
             </li>
           )}
-          <li className='relative group'>
+          <li className='group relative'>
             <Link to='/orders'>
               <Button size='icon' variant='ghost'>
                 <Icons.cart className='md:h-8 md:w-8' />
                 {cart.length > 0 && (
-                  <Badge className='absolute w-6 h-6 -right-1 -top-1 group-hover:bg-secondary/90 group-hover:text-foreground'>
+                  <Badge className='absolute -right-1 -top-1 h-6 w-6 group-hover:bg-secondary/90 group-hover:text-foreground'>
                     {cart.length}
                   </Badge>
                 )}

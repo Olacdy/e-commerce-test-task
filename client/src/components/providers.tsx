@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 import { Toaster } from 'sonner';
 
@@ -13,9 +13,9 @@ type ProvidersProps = {
 const Providers: FC<ProvidersProps> = ({ children }) => {
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <ThemeContextProvider>{children}</ThemeContextProvider>
-      </BrowserRouter>
+      </HashRouter>
       <Toaster richColors closeButton />
     </>
   );
