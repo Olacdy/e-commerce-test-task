@@ -29,6 +29,8 @@ import { Icons } from '@/components/icons';
 import DeleteUserDialog from '@/components/users/delete-user-dialog';
 import { columns } from '@/components/users/users-columns';
 
+import useUserStore from '@/context/user-context';
+
 import { UserType } from '@/schemas/user-schemas';
 
 type UsersTableProps = {
@@ -42,6 +44,7 @@ const UsersTable: FC<UsersTableProps> = ({
   handlePromote,
   handleDelete,
 }) => {
+  const currentUserEmail = useUserStore((state) => state.user?.email);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [isDialogOpened, setIsDialogOpened] = useState<boolean>(false);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -114,7 +117,10 @@ const UsersTable: FC<UsersTableProps> = ({
                         );
                       }
 
-                      if (cell.id.includes('edit')) {
+                      if (
+                        cell.id.includes('edit') &&
+                        row.original.email !== currentUserEmail
+                      ) {
                         return (
                           <TableCell key={cell.id}>
                             <Link to={`/users/${row.original.id}`}>
@@ -127,7 +133,10 @@ const UsersTable: FC<UsersTableProps> = ({
                         );
                       }
 
-                      if (cell.id.includes('delete')) {
+                      if (
+                        cell.id.includes('delete') &&
+                        row.original.email !== currentUserEmail
+                      ) {
                         return (
                           <TableCell key={cell.id}>
                             <DialogTrigger asChild>
