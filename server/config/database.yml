@@ -16,7 +16,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
 
-  host: db
+  host: postgres
   port: 5432
 
   username: <%= ENV["POSTGRES_USER"] %>
