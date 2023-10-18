@@ -9,14 +9,15 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  base: '/e-commerce-test-task/',
   build: {
     outDir: 'build',
   },
   server: {
     host: true,
     port: 8000,
-     watch: {
-       usePolling: true
-     }
-  }
+    watch: {
+      usePolling: true,
+    },
+  },
 });
