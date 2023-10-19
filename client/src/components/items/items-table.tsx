@@ -13,11 +13,6 @@ import {
 } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -33,9 +28,14 @@ import { Icons } from '@/components/icons';
 import ItemContent from '@/components/items/item-content';
 import { columns } from '@/components/items/items-columns';
 
-import useCartStore from '@/context/cart-context';
 import useUserStore from '@/context/user-context';
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import useCartStore from '@/context/cart-context';
 import { ItemType } from '@/schemas/item-schemas';
 
 type ItemsTableProps = {
@@ -104,35 +104,35 @@ const ItemsTable: FC<ItemsTableProps> = ({ items }) => {
               table.getRowModel().rows.map((row) => (
                 <Collapsible key={row.id} asChild>
                   <>
-                    <TableRow>
-                      {row.getVisibleCells().map((cell) => {
-                        if (cell.id.includes('collapse')) {
-                          return (
-                            <TableCell
-                              key={cell.id}
-                              className='flex justify-end'>
-                              <CollapsibleTrigger asChild>
-                                <div className='group cursor-pointer px-3 py-1.5'>
+                    <CollapsibleTrigger asChild type={undefined}>
+                      <TableRow className='group cursor-pointer'>
+                        {row.getVisibleCells().map((cell) => {
+                          if (cell.id.includes('collapse')) {
+                            return (
+                              <TableCell
+                                key={cell.id}
+                                className='flex justify-end'>
+                                <div className='px-3 py-1.5'>
                                   <Icons.down className='transition-transform group-data-[state=open]:rotate-180' />
                                 </div>
-                              </CollapsibleTrigger>
+                              </TableCell>
+                            );
+                          }
+
+                          return (
+                            <TableCell key={cell.id}>
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
                             </TableCell>
                           );
-                        }
-
-                        return (
-                          <TableCell key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
+                        })}
+                      </TableRow>
+                    </CollapsibleTrigger>
                     <CollapsibleContent asChild>
                       <tr>
-                        <TableCell colSpan={3}>
+                        <TableCell colSpan={columns.length}>
                           <ItemContent
                             item={row.original}
                             addToCart={addToCart}
