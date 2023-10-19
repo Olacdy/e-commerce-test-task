@@ -17,3 +17,8 @@
 ### Access on the web
 
 Go to this [Link](https://olacdy.github.io/e-commerce-test-task/)
+
+Admin user credentials:
+
+- email: `admin@admin.com`
+- password: `admin_admin`
