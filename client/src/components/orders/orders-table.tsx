@@ -112,35 +112,37 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
               table.getRowModel().rows.map((row) => (
                 <Collapsible key={row.id} asChild>
                   <>
-                    <TableRow>
-                      {row.getVisibleCells().map((cell) => {
-                        if (cell.id.includes('collapse')) {
-                          return (
-                            <TableCell
-                              key={cell.id}
-                              className='flex justify-end'>
-                              <CollapsibleTrigger asChild>
-                                <div className='group cursor-pointer px-3 py-1.5'>
+                    <CollapsibleTrigger asChild type={undefined}>
+                      <TableRow className='group cursor-pointer'>
+                        {row.getVisibleCells().map((cell) => {
+                          if (cell.id.includes('collapse')) {
+                            return (
+                              <TableCell
+                                key={cell.id}
+                                className='flex justify-end'>
+                                <div className='cursor-pointer px-3 py-1.5'>
                                   <Icons.down className='transition-transform group-data-[state=open]:rotate-180' />
                                 </div>
-                              </CollapsibleTrigger>
+                              </TableCell>
+                            );
+                          }
+
+                          return (
+                            <TableCell key={cell.id}>
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
                             </TableCell>
                           );
-                        }
-
-                        return (
-                          <TableCell key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
+                        })}
+                      </TableRow>
+                    </CollapsibleTrigger>
                     <CollapsibleContent asChild>
                       <tr>
-                        <TableCell colSpan={10} className='py-7 pl-6 pr-10'>
+                        <TableCell
+                          colSpan={columns.length}
+                          className='py-7 pl-6 pr-10'>
                           <OrderDescription
                             orderDescriptions={row.original.orderDescriptions}
                           />
