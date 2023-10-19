@@ -72,7 +72,10 @@ const Orders = () => {
           <OrdersTable orders={orders} />
         </TabsContent>
         <TabsContent value='cart' className='flex flex-col gap-32 pt-12'>
-          <Cart setOrders={setOrders} />
+          <Cart
+            setOrders={setOrders}
+            setOrdersTab={() => handleTabValueChange('orders')}
+          />
         </TabsContent>
       </Tabs>
     </section>
