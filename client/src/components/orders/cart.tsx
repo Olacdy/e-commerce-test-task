@@ -29,6 +29,8 @@ const Cart: FC<CartProps> = ({ setOrders }) => {
     clearCart: state.clearCart,
   }));
 
+  console.log(cart)
+
   const handleOrderConfirm = async () => {
     const requestOptions = {
       method: 'POST',
@@ -71,7 +73,7 @@ const Cart: FC<CartProps> = ({ setOrders }) => {
 
   return (
     <>
-      {cart.length > 1 ? (
+      {cart.length > 0 ? (
         <>
           <OrderDescription
             orderDescriptions={cart}
@@ -82,21 +84,21 @@ const Cart: FC<CartProps> = ({ setOrders }) => {
             <Button
               variant='outline'
               onClick={clearCart}
-              className='whitespace-nowrap text-base'>
+              className='text-base whitespace-nowrap'>
               Clear Cart
             </Button>
             <div className='flex items-center gap-5'>
               <p className='text-xl'>
                 Total: <span>{total}</span>
               </p>
-              <Button onClick={handleOrderConfirm} className='px-7 text-base'>
+              <Button onClick={handleOrderConfirm} className='text-base px-7'>
                 Confirm
               </Button>
             </div>
           </div>
         </>
       ) : (
-        <div className='flex w-full flex-col items-center gap-12 pt-20'>
+        <div className='flex flex-col items-center w-full gap-12 pt-20'>
           <h2 className='text-3xl md:text-5xl'>Cart is empty.</h2>
           <Link to='/'>
             <Button variant='link' className='text-lg md:text-2xl'>
