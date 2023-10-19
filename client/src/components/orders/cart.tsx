@@ -18,9 +18,10 @@ import { Link } from 'react-router-dom';
 
 type CartProps = {
   setOrders: Dispatch<SetStateAction<OrderType[]>>;
+  setOrdersTab: () => void;
 };
 
-const Cart: FC<CartProps> = ({ setOrders }) => {
+const Cart: FC<CartProps> = ({ setOrders, setOrdersTab }) => {
   const token = useTokenStore((state) => state.token);
   const { total, cart, deleteFromCart, clearCart } = useCartStore((state) => ({
     total: state.total(),
@@ -28,8 +29,6 @@ const Cart: FC<CartProps> = ({ setOrders }) => {
     deleteFromCart: state.deleteFromCart,
     clearCart: state.clearCart,
   }));
-
-  console.log(cart)
 
   const handleOrderConfirm = async () => {
     const requestOptions = {
@@ -65,6 +64,8 @@ const Cart: FC<CartProps> = ({ setOrders }) => {
         ...prev,
       ]);
 
+      setOrdersTab();
+
       toast.success('Order created.');
     } catch (error) {
       toast.error('Something went wrong. Try again later.');
@@ -84,21 +85,21 @@ const Cart: FC<CartProps> = ({ setOrders }) => {
             <Button
               variant='outline'
               onClick={clearCart}
-              className='text-base whitespace-nowrap'>
+              className='whitespace-nowrap text-base'>
               Clear Cart
             </Button>
             <div className='flex items-center gap-5'>
               <p className='text-xl'>
                 Total: <span>{total}</span>
               </p>
-              <Button onClick={handleOrderConfirm} className='text-base px-7'>
+              <Button onClick={handleOrderConfirm} className='px-7 text-base'>
                 Confirm
               </Button>
             </div>
           </div>
         </>
       ) : (
-        <div className='flex flex-col items-center w-full gap-12 pt-20'>
+        <div className='flex w-full flex-col items-center gap-12 pt-20'>
           <h2 className='text-3xl md:text-5xl'>Cart is empty.</h2>
           <Link to='/'>
             <Button variant='link' className='text-lg md:text-2xl'>
